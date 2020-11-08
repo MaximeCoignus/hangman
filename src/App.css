@@ -1,38 +1,54 @@
-.App {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box;
+}
+
+.hangman {
   text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.word {
+  margin: 25px 0px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.letter {
+  font-size: 50px;
+  margin: 0 5px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.keyboard {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-wrap: wrap;
+  margin: 50px 0px;
 }
 
-.App-link {
-  color: #61dafb;
+.keyboard > .line {
+  width: 100%;
+  padding: 15px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.key {
+  font-size: 30px;
+  margin: 2px 2px;
+  padding: 10px;
+  border: 2px solid rgb(230, 27, 27);
+  width: 4%;
+  cursor: pointer;
+}
+
+.key.selected {
+  background-color: rgb(230, 27, 27);
+  color: #fff;
+}
+
+.new-game {
+  cursor: pointer;
+  font-size: 70px;
+  margin-top: 15px;
+  color: #b3070f;
 }
