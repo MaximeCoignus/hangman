@@ -2,23 +2,25 @@ import React, { Component } from 'react';
 import shuffle from 'lodash.shuffle';
 import './App.css';
 
-const words = ["PARIS", "MARSEILLE", "VOITURE"];
-const keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const WORDS = ["PARIS", "MARSEILLE", "VOITURE"];
+const A = 65; // ASCII character code
+const TRIALS = 3;
 
 class App extends Component {
-  state = {
-    keyboard: this.generateKeyboard(),
-    word: this.generateWord(),
-    selectedLetters: [],
-    gameState: "In progress"
-  }
-
-  generateKeyboard() {
-    return keys.split('');
+  constructor(props) {
+    super(props);
+    this.state = {
+      keyboard: Array.from({length: 26}, (_, i) => String.fromCharCode(A + i)),
+      word: this.generateWord(),
+      selectedLetters: [],
+      gameState: "In progress",
+      score: 0,
+      attempts: TRIALS
+    };
   }
 
   generateWord() {
-    const candidates = shuffle(words);
+    const candidates = shuffle(WORDS);
     const wordToSplit = candidates.pop();
     return wordToSplit.split('');
   }
@@ -31,11 +33,21 @@ class App extends Component {
 
   // binding this
   updateGameState = () => {
-    const { selectedLetters, word } = this.state;
+    const { selectedLetters, word, score, attempts } = this.state;
     const findWord = word.filter(letter => selectedLetters.includes(letter)).length === word.length;
+    const findLetter = word.filter(letter => selectedLetters[selectedLetters.length-1] === letter);
+
+    findLetter.length !== 0 ? this.setState({score: score + findLetter.length*2}) : this.setState({score: score - 1, attempts: attempts-1}, this.updateLoss);
     
     if (findWord) {
       this.setState({gameState: "YOU WIN!"});
+    }
+  }
+
+  updateLoss = () => {
+    const { attempts } = this.state;
+    if (attempts === 0) {
+      this.setState({gameState: "YOU LOSE!"});
     }
   }
 
@@ -48,8 +60,10 @@ class App extends Component {
   }
 
   newGame = () => {
-    this.setState({ selectedLetters: [], gameState: "In progress", word: this.generateWord() });
+    this.setState({ selectedLetters: [], gameState: "In progress", word: this.generateWord(), score: 0, attempts: TRIALS });
   }
+
+
 
   render() {
     return (
@@ -77,6 +91,8 @@ class App extends Component {
             </div>
           )
         }
+        <p>Score: {this.state.score}</p>
+        <p>Remaining attempts: {this.state.attempts}</p>
       </div>
     );
   }

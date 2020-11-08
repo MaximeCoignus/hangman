@@ -44,6 +44,7 @@
 .key.selected {
   background-color: rgb(230, 27, 27);
   color: #fff;
+  pointer-events: none;
 }
 
 .new-game {
